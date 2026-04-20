@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inhuman</title>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+</head>
+<body>
+
+    <!-- Navbar -->
+     <div>
+         <a href="/">Home</a>
+         <a href="/about">About</a>
+         <a href="/programs">Programs</a>
+         <a href="/contact">Contact</a>     
+    </div>
+    <hr>
+
+    <!-- Page content will go here -->
+    {% block content %}{% endblock %}
+
+</body>
+</html>
