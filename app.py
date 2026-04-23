@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, session, request
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
@@ -38,9 +39,35 @@ def signup():
         name = request.form["name"]
         email = request.form["email"]
         password = request.form["password"]
-        return f"received {name} {email}"
+        cur = mysql.connection.cursor()
+
+        cur.execute(
+            "INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
+            (name, email, password)
+        )
+
+        mysql.connection.commit()
+        cur.close()
+
+        return "User registered successfully!"
     
     return render_template("signin.html")
+
+
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'sp_id*_4_d2y'
+app.config['MYSQL_DB'] = 'inhuman'
+
+mysql = MySQL(app)
+
+
+@app.route('/test-db')
+def test_db():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT 1")
+    return "Database connected!"
 
 
 if __name__ == "__main__":
